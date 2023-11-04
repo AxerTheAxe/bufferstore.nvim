@@ -2,7 +2,12 @@
 local M = {}
 
 -- Default settings
-local defSettings = {}
+local defSettings = {
+  --- Setting to save the cursor position
+  cursorPosition = {
+    enabled = false
+  }
+}
 
 -- Settings table
 local settings = {}
@@ -28,6 +33,10 @@ end
 
 -- Load other plugin modules
 local function loadModules()
+  -- Unload the cursor position module
+  package.loaded["bufferstore.cursorposition"] = nil
+  -- Load the cursor position module
+  require("bufferstore.cursorposition")
 end
 
 -- Plugin setup with the user's configuration
@@ -36,7 +45,7 @@ function M.setup(user_settings)
   -- configuration
   settings = vim.tbl_deep_extend("force", defSettings, user_settings)
 
-  -- Load other plugin modules once the settings
+  -- Load other plugin modules once the settings 
   -- have been merged
   loadModules()
 end
