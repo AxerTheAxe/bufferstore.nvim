@@ -6,6 +6,15 @@ local defSettings = {
   --- Setting to save the cursor position
   cursorPosition = {
     enabled = false
+  },
+  -- Setting to save the directory for
+  -- buffers with no filename
+  noNameDir = {
+    enabled = false,
+
+    -- Toggles printing the directory
+    -- after running ':NewNoName'
+    printcwd = true
   }
 }
 
@@ -37,6 +46,11 @@ local function loadModules()
   package.loaded["bufferstore.cursorposition"] = nil
   -- Load the cursor position module
   require("bufferstore.cursorposition")
+
+  -- Unload the no name module
+  package.loaded["bufferstore.nonamedir"] = nil
+  -- Load the no name module
+  require("bufferstore.nonamedir")
 end
 
 -- Plugin setup with the user's configuration
