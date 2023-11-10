@@ -3,6 +3,10 @@ local M = {}
 local options = {
   cursor_position = {
     enabled = false
+  },
+  no_name = {
+    enabled = false,
+    pwd = true
   }
 }
 
