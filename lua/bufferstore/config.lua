@@ -1,6 +1,10 @@
 local M = {}
 
-local options = {}
+local options = {
+  cursor_position = {
+    enabled = false
+  }
+}
 
 function M.merge_options(new_options)
   options = vim.tbl_deep_extend("force", options, new_options)
