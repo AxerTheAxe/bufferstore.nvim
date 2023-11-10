@@ -1,68 +1,27 @@
--- Plugin module
+local config = require("bufferstore.config")
+
 local M = {}
 
--- Default settings
-local defSettings = {
-  --- Setting to save the cursor position
-  cursorPosition = {
-    enabled = false
-  },
-  -- Setting to save the directory for
-  -- buffers with no filename
-  noNameDir = {
-    enabled = false,
+---@diagnostic disable: param-type-mismatch
+function M.setup(user_options)
+  config.merge_options(user_options or {})
 
-    -- Toggles printing the directory
-    -- after running ':NewNoName'
-    printcwd = true
-  }
-}
+  -- Unload modules
+  package.loaded["bufferstore.cursor_position"] = nil
+  package.loaded["bufferstore.no_name"] = nil
 
--- Settings table
-local settings = {}
+  -- Clean up
+  pcall(vim.cmd, "autocmd! bs_cursor_position")
+  pcall(vim.cmd, "autocmd! bs_no_name")
+  pcall(vim.cmd, "delcommand ENoName")
 
--- Returns the value of an item in the
--- 'settings' table
-function M.getSetting(key)
-  local keys = {}
-  for k in string.gmatch(key, "[^%.]+") do
-    table.insert(keys, k)
+  -- Load desired modules
+  if config.get_option("cursor_position.enabled") then
+    require("bufferstore.cursor_position")
   end
-
-  local currentTable = settings
-  for _, k in ipairs(keys) do
-    currentTable = currentTable[k]
-    if currentTable == nil then
-      return nil
-    end
+  if config.get_option("no_name.enabled") then
+    require("bufferstore.no_name")
   end
-
-  return currentTable
 end
 
--- Load other plugin modules
-local function loadModules()
-  -- Unload the cursor position module
-  package.loaded["bufferstore.cursorposition"] = nil
-  -- Load the cursor position module
-  require("bufferstore.cursorposition")
-
-  -- Unload the no name module
-  package.loaded["bufferstore.nonamedir"] = nil
-  -- Load the no name module
-  require("bufferstore.nonamedir")
-end
-
--- Plugin setup with the user's configuration
-function M.setup(user_settings)
-  -- Merge the settings table with the user's
-  -- configuration
-  settings = vim.tbl_deep_extend("force", defSettings, user_settings)
-
-  -- Load other plugin modules once the settings 
-  -- have been merged
-  loadModules()
-end
-
--- Exit this module
 return M
