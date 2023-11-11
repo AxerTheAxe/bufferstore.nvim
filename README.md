@@ -16,12 +16,12 @@ Stores various buffer information in Neovim.
 Here is the configuration with the default settings:
 
 ```lua
-  require("bufferstore").setup {
-    cursor_position = {
-      enabled = false -- Store cursor positions
-    },
-    no_name = {
-      enabled = false, -- Store no-name directories and enable :ENoName
+require("bufferstore").setup {
+  cursor_position = {
+    enabled = false -- Store cursor positions
+  },
+  no_name = {
+    enabled = false, -- Store no-name directories and enable :ENoName
       pwd = true -- Print the new working directory after using :ENoName
     }
   }
