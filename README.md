@@ -34,4 +34,4 @@ If you would like to contribute code to this project, [pull requests are welcome
 
 ## License
 
-This project is licensed under the [GNU General Public License v3.0](LICENSE). Please review the license before contributing code.
+This project is licensed under the [MIT License](LICENSE). Please review the license before contributing code.
